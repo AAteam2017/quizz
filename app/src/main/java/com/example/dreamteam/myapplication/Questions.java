@@ -1,30 +1,30 @@
 package com.example.dreamteam.myapplication;
 
 /**
- * Created by dreamteam on 12/4/16.
+ * Created by dreamteam on 12/30/16.
  */
 
 public class Questions
 {
-    public static String ShowQuestion(int n)
+    public static String QuestionsShow(int n)
     {
         String quest="";
         switch (n)
         {
             case 1:
-                quest = "Who is the president of the United States of America?"; //Ans B
+                quest = "Who is the president of the United States of America?"; // B
                 break;
             case 2:
-                quest = "You’ve got a 10 x 10 x 10 cube made up of 1 x 1 x 1 smaller cubes. The outside of the larger cube is completely painted red. On how many of the smaller cubes is there no red paint?"; //Ans A
+                quest = "You’ve got a 10 x 10 x 10 cube made up of 1 x 1 x 1 smaller cubes. The outside of the larger cube is completely painted red. On how many of the smaller cubes is there no red paint?"; //A
                 break;
             case 3:
-                quest = "The Federal Reserve raised the base interest rate for the United States. How will the dollar react?"; //Anc C
+                quest = "The Federal Reserve raised the base interest rate for the United States. How will the dollar react?"; // C
                 break;
             case 4:
-                quest = "How old is Kim Kardashian? ";  //Ans C
+                quest = "How old is Kim Kardashian? ";  // C
                 break;
             case 5:
-                quest = "How much money does Mariah Carey earn from 'All I Want For Christmas Is You' in one Christmas?"; //Ans A
+                quest = "How much money does Mariah Carey earn from 'All I Want For Christmas Is You' in one Christmas?"; // A
             default:
                 break;
         }
@@ -62,7 +62,7 @@ public class Questions
         switch (n)
         {
             case 1:
-                ans = "Barack Obama";
+                ans = "Donald Trump";
                 break;
             case 2:
                 ans = "729";
@@ -87,7 +87,7 @@ public class Questions
         switch (n)
         {
             case 1:
-                ans = "A Racist Orange";
+                ans = "Barack Obama";
                 break;
             case 2:
                 ans = "343";

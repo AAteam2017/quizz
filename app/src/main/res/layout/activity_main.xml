@@ -11,14 +11,15 @@
     tools:context="com.example.dreamteam.myapplication.MainActivity">
 
     <TextView
-        android:text="Enter Your Name"
+        android:text="PLEASE ENTER YOUR NAME:  "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="43dp"
-        android:id="@+id/TextViewNameTit"
-        android:layout_alignBottom="@+id/NameEditText"
-        android:layout_alignLeft="@+id/NameEditText"
-        android:layout_alignStart="@+id/NameEditText" />
+        android:id="@+id/NameString"
+        android:layout_alignBottom="@+id/BlankEditName"
+        android:layout_alignLeft="@+id/BlankEditName"
+        android:layout_alignStart="@+id/BlankEditName"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -26,10 +27,18 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_marginTop="56dp"
-        android:id="@+id/NameEditText"
-        android:layout_below="@+id/TextViewQuestion"
+        android:id="@+id/BlankEditName"
         android:layout_alignRight="@+id/SingleButton"
         android:layout_alignEnd="@+id/SingleButton" />
+
+    <Button
+        android:text="Q1. Politics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ButtonQ1"
+        android:layout_below="@+id/NameString"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp" />
 
     <Button
         android:text="Q2. Maths"
@@ -40,23 +49,6 @@
         android:layout_centerHorizontal="true"
         android:textSize="14sp" />
 
-    <Button
-        android:text="Q1. Politics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ButtonQ1"
-        android:layout_below="@+id/TextViewNameTit"
-        android:layout_centerHorizontal="true"
-        android:textSize="14sp" />
-
-    <TextView
-        android:text="Welcome to Quiz app!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/TextViewWelcome"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:text="Register"
@@ -68,25 +60,7 @@
         android:layout_alignEnd="@+id/MultiplayerButton" />
 
     <Button
-        android:text="Hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/HintButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Skip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/SkipButton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Go to questions list"
+        android:text="Back to question list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/StartButton"
@@ -96,8 +70,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewScore"
-        android:layout_above="@+id/textViewSolution"
+        android:id="@+id/ScoreString"
+        android:layout_above="@+id/SolutionString"
         android:layout_centerHorizontal="true"
         android:text="Score" />
 
@@ -114,71 +88,41 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewSolution"
+        android:id="@+id/SolutionString"
         android:text="Solution"
         android:layout_marginBottom="40dp"
         android:layout_above="@+id/buttonB"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="Question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/QuestionTextView"
-        android:textSize="24sp"
-        android:layout_alignBaseline="@+id/NameEditText"
-        android:layout_alignBottom="@+id/NameEditText"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:text="LowerScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewHigh"
+        android:layout_below="@+id/HigherScoreString"
         android:layout_marginTop="6dp"
-        android:id="@+id/textViewLow"
+        android:id="@+id/LowerScoreString"
         android:textSize="20sp"
-        android:layout_alignLeft="@+id/textViewHigh"
-        android:layout_alignStart="@+id/textViewHigh"
-        android:layout_alignRight="@+id/textViewHigh"
-        android:layout_alignEnd="@+id/textViewHigh" />
+        android:layout_alignLeft="@+id/HigherScoreString"
+        android:layout_alignStart="@+id/HigherScoreString"
+        android:layout_alignRight="@+id/HigherScoreString"
+        android:layout_alignEnd="@+id/HigherScoreString" />
 
     <Button
-        android:text="C"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonC"
-        android:layout_alignBaseline="@+id/buttonB"
-        android:layout_alignBottom="@+id/buttonB"
-        android:layout_toRightOf="@+id/StartButton"
-        android:layout_toEndOf="@+id/StartButton" />
-
-    <Button
-        android:text="Next Player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/NextPlayerButton"
-        android:layout_alignParentBottom="true"
-        android:layout_above="@+id/buttonScore"
-        android:layout_toRightOf="@+id/buttonScore"
-        android:layout_toEndOf="@+id/buttonScore" />
-
-    <Button
-        android:text="Multiplayer"
+        android:text="TWO PLAYERS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/MultiplayerButton"
         android:layout_alignBaseline="@+id/SingleButton"
         android:layout_alignBottom="@+id/SingleButton"
-        android:layout_toRightOf="@+id/QuestionTextView"
-        android:layout_toEndOf="@+id/QuestionTextView" />
+        android:layout_toRightOf="@+id/QuestionString"
+        android:layout_toEndOf="@+id/QuestionString" />
 
     <TextView
         android:text="Click button below to Start your Quiz!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="26dp"
-        android:id="@+id/textViewNotice"
+        android:id="@+id/NameWrongString"
         android:textAlignment="center"
         android:textSize="18sp"
         android:layout_above="@+id/StartButton"
@@ -189,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonScore"
-        android:layout_above="@+id/textViewNotice"
+        android:layout_above="@+id/NameWrongString"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -205,7 +149,7 @@
         android:text="Higher Score:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewHigh"
+        android:id="@+id/HigherScoreString"
         android:textSize="20sp"
         android:layout_above="@+id/ButtonQ4"
         android:layout_centerHorizontal="true" />
@@ -220,16 +164,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Single Player"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/SingleButton"
-        android:layout_centerVertical="true"
-        android:layout_alignRight="@+id/TextViewWelcome"
-        android:layout_alignEnd="@+id/TextViewWelcome" />
-
-    <Button
-        android:text="A"
+        android:text="Ans A"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonA"
@@ -239,12 +174,22 @@
         android:layout_toStartOf="@+id/StartButton" />
 
     <Button
-        android:text="B"
+        android:text="Ans B"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonB"
         android:layout_below="@+id/ButtonQ5"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Ans C"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonC"
+        android:layout_alignBaseline="@+id/buttonB"
+        android:layout_alignBottom="@+id/buttonB"
+        android:layout_toRightOf="@+id/StartButton"
+        android:layout_toEndOf="@+id/StartButton" />
 
     <Button
         android:text="Play Again"
@@ -256,13 +201,75 @@
         android:id="@+id/button_Redo" />
 
     <Button
-        android:text="League Table"
+        android:text="SCORE TABLE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewNotice"
+        android:layout_below="@+id/NameWrongString"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/SingleScore_button" />
+        android:id="@+id/BUTTONScoreSingle" />
+
+    <TextView
+        android:text="Let's begin the AAteam Quiz!!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/WelcomeString"
+        android:textStyle="normal|bold|italic"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Single Player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SingleButton"
+        android:layout_alignBaseline="@+id/LowerScoreString"
+        android:layout_alignBottom="@+id/LowerScoreString"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Answer all "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/QuestionString"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@+id/BlankEditName"
+        android:layout_alignBottom="@+id/BlankEditName"
+        android:layout_alignLeft="@+id/ButtonQ5"
+        android:layout_alignStart="@+id/ButtonQ5" />
+
+    <Button
+        android:text="Skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/SkipButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/HintButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Next Player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/NextPlayerButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/buttonC"
+        android:layout_alignEnd="@+id/buttonC" />
 
 
 </RelativeLayout>
+
+

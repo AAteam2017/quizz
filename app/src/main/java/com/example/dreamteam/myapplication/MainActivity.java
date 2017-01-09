@@ -18,10 +18,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Variable IDENTIFICATION:
-        // Get BUTTONS:
-        final Button SingleScore_button = (Button)findViewById(R.id.SingleScore_button);
-        final Button Redo_button = (Button)findViewById(R.id.button_Redo);
+        // BUTTONS:
+        final Button BUTTONScoreSingle = (Button)findViewById(R.id.BUTTONScoreSingle);
+        final Button BUTTONReplay = (Button)findViewById(R.id.button_Redo);
         final Button Reg_button = (Button)findViewById(R.id.ButtonRegister);
         final Button BUTTONQ1 = (Button)findViewById(R.id.ButtonQ1);
         final Button BUTTONQ2 = (Button)findViewById(R.id.ButtonQ2);
@@ -39,22 +38,22 @@ public class MainActivity extends Activity {
         final Button BUTTONHINT = (Button) findViewById(R.id.HintButton);
         final Button BUTTONNEXT = (Button) findViewById(R.id.NextPlayerButton);
 
-        // Get EDIT TEXTS:
-        final EditText txtname = (EditText) findViewById(R.id.NameEditText);
+        // BLANKS:
+        final EditText textname = (EditText) findViewById(R.id.BlankEditName);
 
-        // Get TEXT VIEWS:
-        final TextView name_tit = (TextView) findViewById(R.id.TextViewNameTit);
-        final TextView hello = (TextView) findViewById(R.id.TextViewWelcome);
-        final TextView question_txt = (TextView)findViewById(R.id.QuestionTextView);
-        final TextView sol_txt = (TextView)findViewById(R.id.textViewSolution);
-        final TextView score_txt = (TextView)findViewById(R.id.textViewScore);
-        final TextView low_txt = (TextView)findViewById(R.id.textViewLow);
-        final TextView high_txt = (TextView)findViewById(R.id.textViewHigh);
-        final TextView notice_txt = (TextView)findViewById(R.id.textViewNotice);
+        // TEXTS:
+        final TextView name_tit = (TextView) findViewById(R.id.NameString);
+        final TextView hello = (TextView) findViewById(R.id.WelcomeString);
+        final TextView question_text = (TextView)findViewById(R.id.QuestionString);
+        final TextView sol_text = (TextView)findViewById(R.id.SolutionString);
+        final TextView score_text = (TextView)findViewById(R.id.ScoreString);
+        final TextView low_text = (TextView)findViewById(R.id.LowerScoreString);
+        final TextView high_text = (TextView)findViewById(R.id.HigherScoreString);
+        final TextView namewrong_text = (TextView)findViewById(R.id.NameWrongString);
 
-        // INITIAL VALUE SET
-        Redo_button.setVisibility(View.INVISIBLE);
-        notice_txt.setVisibility(View.INVISIBLE);
+        // Start screen:
+        BUTTONReplay.setVisibility(View.INVISIBLE);
+        namewrong_text.setVisibility(View.INVISIBLE);
         BUTTONSCORE.setVisibility(View.INVISIBLE);
         BUTTONQ1.setVisibility(View.INVISIBLE);
         BUTTONQ2.setVisibility(View.INVISIBLE);
@@ -64,53 +63,57 @@ public class MainActivity extends Activity {
         BUTTONA.setVisibility(View.INVISIBLE);
         BUTTONB.setVisibility(View.INVISIBLE);
         BUTTONC.setVisibility(View.INVISIBLE);
-        question_txt.setVisibility(View.INVISIBLE);
-        sol_txt.setVisibility(View.INVISIBLE);
-        score_txt.setVisibility(View.INVISIBLE);
+        question_text.setVisibility(View.INVISIBLE);
+        sol_text.setVisibility(View.INVISIBLE);
+        score_text.setVisibility(View.INVISIBLE);
         BUTTONSTART.setVisibility(View.INVISIBLE);
         Reg_button.setVisibility(View.INVISIBLE);
         BUTTONNEXT.setVisibility(View.INVISIBLE);
-        txtname.setVisibility(View.INVISIBLE);
-        high_txt.setVisibility(View.INVISIBLE);
-        low_txt.setVisibility(View.INVISIBLE);
+        textname.setVisibility(View.INVISIBLE);
+        high_text.setVisibility(View.INVISIBLE);
+        low_text.setVisibility(View.INVISIBLE);
         name_tit.setVisibility(View.INVISIBLE);
         BUTTONHINT.setVisibility(View.INVISIBLE);
         BUTTONSKIP.setVisibility(View.INVISIBLE);
-        SingleScore_button.setVisibility(View.INVISIBLE);
+        BUTTONScoreSingle.setVisibility(View.INVISIBLE);
 
-        //Single button clicked
+
+
+        //SINGLE PLAYER:
         BUTTONSINGLE.setOnClickListener
                 (
                         new Button.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                // Make unecessary things INVISIBLE
+                                // HIDE
                                 BUTTONSINGLE.setVisibility(View.INVISIBLE);
                                 BUTTONMULTI.setVisibility(View.INVISIBLE);
 
-                                // Make necessary things VISIBLE
+                                // SHOW
                                 Reg_button.setVisibility(View.VISIBLE);
                                 name_tit.setVisibility(View.VISIBLE);
-                                txtname.setVisibility(View.VISIBLE);
-                                PlayerNo(0, false, false, 0);
+                                textname.setVisibility(View.VISIBLE);
+
+                                playerCode(0, false, false, 0);
                             }
                         }
                 );
-        //Multiple_buton clicked
+
+        //TWO PLAYERS:
         BUTTONMULTI.setOnClickListener(
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Make unecessary things INVISIBLE
+                        // HIDE
                         BUTTONSINGLE.setVisibility(View.INVISIBLE);
                         BUTTONMULTI.setVisibility(View.INVISIBLE);
 
-                        // Make necessary things VISIBLE
+                        // SHOW
                         Reg_button.setVisibility(View.VISIBLE);
                         name_tit.setVisibility(View.VISIBLE);
-                        txtname.setVisibility(View.VISIBLE);
+                        textname.setVisibility(View.VISIBLE);
 
-                        PlayerNo(0, true, false, 0);
+                        playerCode(0, true, false, 0);
                     }
                 }
         );
@@ -118,20 +121,19 @@ public class MainActivity extends Activity {
 
     }
 
-    public void PlayerNo(int n, boolean c, boolean sc, int time) {
+    public void playerCode(int n, boolean c, boolean both, int time) {
         playerList[n] = new Players();
-        Input(playerList[n], c, sc, time);
+        Input(playerList[n], c, both, time);
     }
 
-    public boolean isAlpha(String name) {
-        return Pattern.matches("[a-zA-Z]+", name);
+    public boolean realName(String name) {return Pattern.matches("^[A-Za-z\\s]+$", name);
     }
 
-    public void Input(final Players aPlayer, final boolean c, final boolean sc, final int time)
+    public void Input(final Players playerX, final boolean c, final boolean both, final int time)
     {
-        // Get BUTTONS:
-        final Button SingleScore_button = (Button)findViewById(R.id.SingleScore_button);
-        final Button Redo_button = (Button)findViewById(R.id.button_Redo);
+        // BUTTONS
+        final Button BUTTONScoreSingle = (Button)findViewById(R.id.BUTTONScoreSingle);
+        final Button BUTTONReplay = (Button)findViewById(R.id.button_Redo);
         final Button BUTTONSCORE = (Button)findViewById(R.id.buttonScore);
         final Button Reg_button = (Button)findViewById(R.id.ButtonRegister);
         final Button BUTTONQ1 = (Button)findViewById(R.id.ButtonQ1);
@@ -147,64 +149,64 @@ public class MainActivity extends Activity {
         final Button BUTTONHINT = (Button) findViewById(R.id.HintButton);
         final Button BUTTONNEXT = (Button) findViewById(R.id.NextPlayerButton);
 
-        // Get EDIT TEXTS:
-        final EditText txtname = (EditText) findViewById(R.id.NameEditText);
+        // BLANKS
+        final EditText textname = (EditText) findViewById(R.id.BlankEditName);
 
-        // Get TEXT VIEWS:
-        final TextView name_tit = (TextView) findViewById(R.id.TextViewNameTit);
-        final TextView hello = (TextView) findViewById(R.id.TextViewWelcome);
-        final TextView question_txt = (TextView) findViewById(R.id.QuestionTextView);
-        final TextView sol_txt = (TextView)findViewById(R.id.textViewSolution);
-        final TextView score_txt = (TextView)findViewById(R.id.textViewScore);
-        final TextView low_txt = (TextView)findViewById(R.id.textViewLow);
-        final TextView high_txt = (TextView)findViewById(R.id.textViewHigh);
-        final TextView notice_txt = (TextView)findViewById(R.id.textViewNotice);
+        // TEXTS
+        final TextView name_tit = (TextView) findViewById(R.id.NameString);
+        final TextView hello = (TextView) findViewById(R.id.WelcomeString);
+        final TextView question_text = (TextView) findViewById(R.id.QuestionString);
+        final TextView sol_text = (TextView)findViewById(R.id.SolutionString);
+        final TextView score_text = (TextView)findViewById(R.id.ScoreString);
+        final TextView low_text = (TextView)findViewById(R.id.LowerScoreString);
+        final TextView high_text = (TextView)findViewById(R.id.HigherScoreString);
+        final TextView namewrong_text = (TextView)findViewById(R.id.NameWrongString);
 
-        // REG BUTTON - Set click
+        // Registration for players:
         Reg_button.setOnClickListener(
                 new Button.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
-                        // Get name from text field
-                        String name = txtname.getText().toString();
+                        // Gets name:
+                        String name = textname.getText().toString();
 
-                        // Check whether name is VALID
-                        if (isAlpha(name))
+                        // REAL NAME:
+                        if (realName(name))
                         {
-                            notice_txt.setText("Click button below to Start your Quiz!");
-                            notice_txt.setVisibility(View.VISIBLE);
+                            namewrong_text.setText("Start the AAteam Quiz!!");
+                            namewrong_text.setVisibility(View.VISIBLE);
 
-                            hello.setText("Student: " + name);
-                            aPlayer.setName(name);
+                            hello.setText("Player: " + name);
+                            playerX.nameSet(name);
 
-                            // Make unecessary things INVISIBLE: EditText name, name title & Start button
-                            txtname.setVisibility(View.INVISIBLE);
+                            // HIDE:
+                            textname.setVisibility(View.INVISIBLE);
                             Reg_button.setVisibility(View.INVISIBLE);
                             name_tit.setVisibility(View.INVISIBLE);
 
-                            //Make Start visible
-                            BUTTONSTART.setText("START");
+                            // SHOW
+                            BUTTONSTART.setText("BEGIN!");
                             BUTTONSTART.setVisibility(View.VISIBLE);
                         }
                         else
                         {
-                              notice_txt.setText("Name can only contain LETTERS in ALPHABETS! Re-enter your name.");
-                              notice_txt.setVisibility(View.VISIBLE);
+                            namewrong_text.setText("Please enter valid letters only!");
+                            namewrong_text.setVisibility(View.VISIBLE);
                         }
-                                           }
+                    }
                 });
 
-        // START BUTTON - Set click
+        // START:
         BUTTONSTART.setOnClickListener(
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Make things INVISIBLE
-                        notice_txt.setVisibility(View.INVISIBLE);
-                        question_txt.setText("");
-                        score_txt.setText("");
-                        sol_txt.setText("");
+                        // HIDE
+                        namewrong_text.setVisibility(View.INVISIBLE);
+                        question_text.setText("");
+                        score_text.setText("");
+                        sol_text.setText("");
                         BUTTONHINT.setVisibility(View.INVISIBLE);
                         BUTTONSKIP.setVisibility(View.INVISIBLE);
                         BUTTONA.setVisibility(View.INVISIBLE);
@@ -213,41 +215,41 @@ public class MainActivity extends Activity {
                         BUTTONSTART.setText("GO TO QUESTION LIST");
                         BUTTONSTART.setVisibility(View.INVISIBLE);
 
-                        // Make necessary things VISIBLE
-                        if (aPlayer.get1())
+                        // SHOW
+                        if (playerX.get1())
                             BUTTONQ1.setVisibility(View.VISIBLE);
-                        if (aPlayer.get2())
+                        if (playerX.get2())
                             BUTTONQ2.setVisibility(View.VISIBLE);
-                        if (aPlayer.get3())
+                        if (playerX.get3())
                             BUTTONQ3.setVisibility(View.VISIBLE);
-                        if (aPlayer.get4())
+                        if (playerX.get4())
                             BUTTONQ4.setVisibility(View.VISIBLE);
-                        if (aPlayer.get5())
+                        if (playerX.get5())
                             BUTTONQ5.setVisibility(View.VISIBLE);
 
-                        // QUESTION SHOW UP
+                        // LIST OF QUESTIONS:
+
                         // QUESTION 1
                         BUTTONQ1.setOnClickListener(
                                 new Button.OnClickListener()
                                 { @Override
-                                    public void onClick(View view){
-                                    //Hide question buttons
+                                public void onClick(View view){
+                                    //SHOW NEXT SCREEN (HIDE QUESTIONS BUTTON:
                                     BUTTONQ1.setVisibility(View.INVISIBLE);
                                     BUTTONQ2.setVisibility(View.INVISIBLE);
                                     BUTTONQ3.setVisibility(View.INVISIBLE);
                                     BUTTONQ4.setVisibility(View.INVISIBLE);
                                     BUTTONQ5.setVisibility(View.INVISIBLE);
-                                    //Show question and answers
-                                    question_txt.setText(Questions.ShowQuestion(1));
-                                    question_txt.setVisibility(View.VISIBLE);
+
+                                    //SHOW QUESTIONS AND ANSWERS OPTIONS, SHOW HINT AND SKIP:
+                                    question_text.setText(Questions.QuestionsShow(1));
+                                    question_text.setVisibility(View.VISIBLE);
                                     BUTTONA.setText(Questions.getA(1));
                                     BUTTONB.setText(Questions.getB(1));
                                     BUTTONC.setText(Questions.getC(1));
                                     BUTTONA.setVisibility(View.VISIBLE);
                                     BUTTONB.setVisibility(View.VISIBLE);
                                     BUTTONC.setVisibility(View.VISIBLE);
-
-                                    //Show hint and skip and question list
                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                     BUTTONHINT.setVisibility(View.VISIBLE);
                                     BUTTONSKIP.setVisibility(View.VISIBLE);
@@ -258,166 +260,176 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set1();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set1();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //Show:
+                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+                                                    //Hide:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
-                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
                                                 }
                                             });
-                                    //RIGHT ANSWER
+
+                                    //RIGHT ANSWER: Answer B
                                     BUTTONB.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set1();
-                                                    //Increase score
-                                                    aPlayer.increaseScore(time);
-                                                    sol_txt.setText("Your answer is RIGHT! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set1();
+                                                    //Increases score
+                                                    playerX.scoreIncrease(time);
+                                                    sol_text.setText("Well done! RIGHT answer! Continue below: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //Show:
+                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+                                                    //Hide:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
-                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
                                                 }
                                             });
+
                                     //WRONG ANSWER
                                     BUTTONC.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set1();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set1();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //SHOW START BUTTON:
+                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
-                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
                                                 }
                                             });
-                                    // HINT BUTTON - Set click
+                                    // HINT clicked
                                     BUTTONHINT.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set1();
-                                                    //Show answer
-                                                    sol_txt.setText("The answer is: " + Questions.getB(1));
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set1();
+                                                    //Show answer: Question 1 answer is B
+                                                    sol_text.setText("The correct answer is: : " + Questions.getB(1));
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //SHOW START BUTTON:
+                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
-                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
                                                 }
                                             });
-                                    // SKIP BUTTON - Set click
+                                    // SKIP clicked:
                                     BUTTONSKIP.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set1();
+                                                    //Set answers:
+                                                    playerX.set1();
 
-                                                    //Hide buttons
+                                                    //SHOW START BUTTON:
+                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
-                                                    BUTTONSTART.setVisibility(View.VISIBLE);
+
                                                 }
                                             });
                                 }
 
 
                                 });
+
                         // QUESTION 2
                         BUTTONQ2.setOnClickListener(
                                 new Button.OnClickListener()
                                 { @Override
                                 public void onClick(View view){
-                                    //Hide question buttons
+                                    //SHOW NEXT SCREEN (HIDE QUESTIONS BUTTON:
                                     BUTTONQ1.setVisibility(View.INVISIBLE);
                                     BUTTONQ2.setVisibility(View.INVISIBLE);
                                     BUTTONQ3.setVisibility(View.INVISIBLE);
                                     BUTTONQ4.setVisibility(View.INVISIBLE);
                                     BUTTONQ5.setVisibility(View.INVISIBLE);
-                                    //Show question and answers
-                                    String quest = Questions.ShowQuestion(2);
-                                    question_txt.setText(quest);
-                                    question_txt.setVisibility(View.VISIBLE);
+
+                                    //SHOW QUESTIONS AND ANSWERS OPTIONS, SHOW HINT AND SKIP:
+                                    String quest = Questions.QuestionsShow(2);
+                                    question_text.setText(quest);
+                                    question_text.setVisibility(View.VISIBLE);
                                     BUTTONA.setText(Questions.getA(2));
                                     BUTTONB.setText(Questions.getB(2));
                                     BUTTONC.setText(Questions.getC(2));
                                     BUTTONA.setVisibility(View.VISIBLE);
                                     BUTTONB.setVisibility(View.VISIBLE);
                                     BUTTONC.setVisibility(View.VISIBLE);
-                                    //Show hint and skip and question list
                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                     BUTTONHINT.setVisibility(View.VISIBLE);
                                     BUTTONSKIP.setVisibility(View.VISIBLE);
 
-                                    //RIGHT ANSWER
+                                    //RIGHT ANSWER: Answer A
                                     BUTTONA.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set2();
+                                                    //Set answers:
+                                                    playerX.set2();
                                                     //Increase score
-                                                    aPlayer.increaseScore(time);
-                                                    sol_txt.setText("Your answer is RIGHT! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    playerX.scoreIncrease(time);
+                                                    sol_text.setText("Well done! RIGHT answer! Continue below: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
+
                                     //WRONG ANSWER
                                     BUTTONB.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set2();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set2();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
@@ -427,53 +439,54 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set2();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set2();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // HINT BUTTON - Set click
+
+                                    // HINT clicked
                                     BUTTONHINT.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set2();
-                                                    //Show answer
-                                                    sol_txt.setText("The answer is: " + Questions.getA(2));
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set2();
+                                                    //Show answer: Question 2 answer is A
+                                                    sol_text.setText("The correct answer is: : " + Questions.getA(2));
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // SKIP BUTTON - Set click
+                                    // SKIP clicked:
                                     BUTTONSKIP.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set2();
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set2();
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
@@ -481,28 +494,29 @@ public class MainActivity extends Activity {
 
 
                                 });
+
                         // QUESTION 3
                         BUTTONQ3.setOnClickListener(
                                 new Button.OnClickListener()
                                 { @Override
                                 public void onClick(View view){
-                                    //Hide question buttons
+                                    //SHOW NEXT SCREEN (HIDE QUESTIONS BUTTON:
                                     BUTTONQ1.setVisibility(View.INVISIBLE);
                                     BUTTONQ2.setVisibility(View.INVISIBLE);
                                     BUTTONQ3.setVisibility(View.INVISIBLE);
                                     BUTTONQ4.setVisibility(View.INVISIBLE);
                                     BUTTONQ5.setVisibility(View.INVISIBLE);
-                                    //Show question and answers
-                                    String quest = Questions.ShowQuestion(3);
-                                    question_txt.setText(quest);
-                                    question_txt.setVisibility(View.VISIBLE);
+
+                                    //SHOW QUESTIONS AND ANSWERS OPTIONS, SHOW HINT AND SKIP:
+                                    String quest = Questions.QuestionsShow(3);
+                                    question_text.setText(quest);
+                                    question_text.setVisibility(View.VISIBLE);
                                     BUTTONA.setText(Questions.getA(3));
                                     BUTTONB.setText(Questions.getB(3));
                                     BUTTONC.setText(Questions.getC(3));
                                     BUTTONA.setVisibility(View.VISIBLE);
                                     BUTTONB.setVisibility(View.VISIBLE);
                                     BUTTONC.setVisibility(View.VISIBLE);
-                                    //Show hint and skip and question list
                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                     BUTTONHINT.setVisibility(View.VISIBLE);
                                     BUTTONSKIP.setVisibility(View.VISIBLE);
@@ -513,88 +527,90 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set3();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set3();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
+
                                     //WRONG ANSWER
                                     BUTTONB.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set3();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set3();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    //RIGHT ANSWER
+
+                                    //RIGHT ANSWER: Answer C
                                     BUTTONC.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set3();
-                                                    sol_txt.setText("Your answer is RIGHT! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
+                                                    //Set answers:
+                                                    playerX.set3();
+                                                    sol_text.setText("Well done! RIGHT answer! Continue below: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
                                                     //Increase score
-                                                    aPlayer.increaseScore(time);
-                                                    //Hide buttons
+                                                    playerX.scoreIncrease(time);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // HINT BUTTON - Set click
+                                    // HINT clicked
                                     BUTTONHINT.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set3();
-                                                    //Show answer
-                                                    sol_txt.setText("The answer is: " + Questions.getC(3));
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set3();
+                                                    //Show answer: Question 3 answer is C
+                                                    sol_text.setText("The correct answer is: : " + Questions.getC(3));
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // SKIP BUTTON - Set click
+                                    // SKIP clicked:
                                     BUTTONSKIP.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set3();
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set3();
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
@@ -607,28 +623,28 @@ public class MainActivity extends Activity {
 
 
                                 });
+
                         // QUESTION 4
                         BUTTONQ4.setOnClickListener(
                                 new Button.OnClickListener()
                                 { @Override
                                 public void onClick(View view){
-                                    //Hide question buttons
+                                    //SHOW NEXT SCREEN (HIDE QUESTIONS BUTTON:
                                     BUTTONQ1.setVisibility(View.INVISIBLE);
                                     BUTTONQ2.setVisibility(View.INVISIBLE);
                                     BUTTONQ3.setVisibility(View.INVISIBLE);
                                     BUTTONQ4.setVisibility(View.INVISIBLE);
                                     BUTTONQ5.setVisibility(View.INVISIBLE);
-                                    //Show question and answers
-                                    String quest = Questions.ShowQuestion(4);
-                                    question_txt.setText(quest);
-                                    question_txt.setVisibility(View.VISIBLE);
+                                    //SHOW QUESTIONS AND ANSWERS OPTIONS, SHOW HINT AND SKIP:
+                                    String quest = Questions.QuestionsShow(4);
+                                    question_text.setText(quest);
+                                    question_text.setVisibility(View.VISIBLE);
                                     BUTTONA.setText(Questions.getA(4));
                                     BUTTONB.setText(Questions.getB(4));
                                     BUTTONC.setText(Questions.getC(4));
                                     BUTTONA.setVisibility(View.VISIBLE);
                                     BUTTONB.setVisibility(View.VISIBLE);
                                     BUTTONC.setVisibility(View.VISIBLE);
-                                    //Show hint and skip and question list
                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                     BUTTONHINT.setVisibility(View.VISIBLE);
                                     BUTTONSKIP.setVisibility(View.VISIBLE);
@@ -639,16 +655,16 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set4();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set4();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
@@ -658,69 +674,71 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set4();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set4();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    //RIGHT ANSWER
+                                    //RIGHT ANSWER: Answer
                                     BUTTONC.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set4();
-                                                    sol_txt.setText("Your answer is RIGHT! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
+                                                    //Set answers:
+                                                    playerX.set4();
+                                                    sol_text.setText("Well done! RIGHT answer! Continue below: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
                                                     //Increase score
-                                                    aPlayer.increaseScore(time);
-                                                    //Hide buttons
+                                                    playerX.scoreIncrease(time);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // HINT BUTTON - Set click
+
+                                    // HINT clicked
                                     BUTTONHINT.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set4();
-                                                    //Show answer
-                                                    sol_txt.setText("The answer is: " + Questions.getC(4));
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set4();
+                                                    //Show answer: Question 4 answer is C
+                                                    sol_text.setText("The correct answer is: : " + Questions.getC(4));
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // SKIP BUTTON - Set click
+
+                                    // SKIP clicked:
                                     BUTTONSKIP.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set4();
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set4();
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
@@ -738,46 +756,45 @@ public class MainActivity extends Activity {
                                 new Button.OnClickListener()
                                 { @Override
                                 public void onClick(View view){
-                                    //Hide question buttons
+                                    //SHOW NEXT SCREEN (HIDE QUESTIONS BUTTON):
                                     BUTTONQ1.setVisibility(View.INVISIBLE);
                                     BUTTONQ2.setVisibility(View.INVISIBLE);
                                     BUTTONQ3.setVisibility(View.INVISIBLE);
                                     BUTTONQ4.setVisibility(View.INVISIBLE);
                                     BUTTONQ5.setVisibility(View.INVISIBLE);
-                                    //Show question and answers
-                                    String quest = Questions.ShowQuestion(5);
-                                    question_txt.setText(quest);
-                                    question_txt.setVisibility(View.VISIBLE);
+                                    //SHOW QUESTIONS AND ANSWERS OPTIONS, SHOW HINT AND SKIP:
+                                    String quest = Questions.QuestionsShow(5);
+                                    question_text.setText(quest);
+                                    question_text.setVisibility(View.VISIBLE);
                                     BUTTONA.setText(Questions.getA(5));
                                     BUTTONB.setText(Questions.getB(5));
                                     BUTTONC.setText(Questions.getC(5));
                                     BUTTONA.setVisibility(View.VISIBLE);
                                     BUTTONB.setVisibility(View.VISIBLE);
                                     BUTTONC.setVisibility(View.VISIBLE);
-                                    //Show hint and skip and question list
                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                     BUTTONHINT.setVisibility(View.VISIBLE);
                                     BUTTONSKIP.setVisibility(View.VISIBLE);
 
-                                    //RIGHT ANSWER
+                                    //RIGHT ANSWER: Answer A
                                     BUTTONA.setOnClickListener(
                                             new Button.OnClickListener() {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set5();
+                                                    //Set answers:
+                                                    playerX.set5();
                                                     //Increase score
-                                                    aPlayer.increaseScore(time);
-                                                    sol_txt.setText("Your answer is RIGHT! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    playerX.scoreIncrease(time);
+                                                    sol_text.setText("Well done! RIGHT answer! Continue below: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
@@ -787,11 +804,11 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set5();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set5();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
@@ -805,11 +822,11 @@ public class MainActivity extends Activity {
 
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set5();
-                                                    sol_txt.setText("Your answer is WRONG! Click below button to go back to question list.");
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set5();
+                                                    sol_text.setText("WRONG answer! Click to continue: ");
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
@@ -817,40 +834,40 @@ public class MainActivity extends Activity {
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // HINT BUTTON - Set click
+                                    // HINT clicked
                                     BUTTONHINT.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set5();
-                                                    //Show answer
-                                                    sol_txt.setText("The answer is: " + Questions.getA(5));
-                                                    sol_txt.setVisibility(View.VISIBLE);
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set5();
+                                                    //Show answer: Question 5 answer is A
+                                                    sol_text.setText("The correct answer is: : " + Questions.getA(5));
+                                                    sol_text.setVisibility(View.VISIBLE);
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
-                                    // SKIP BUTTON - Set click
+                                    // SKIP clicked:
                                     BUTTONSKIP.setOnClickListener(
                                             new Button.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    //Set answered
-                                                    aPlayer.set5();
-                                                    //Hide buttons
+                                                    //Set answers:
+                                                    playerX.set5();
+                                                    //HIDE:
                                                     BUTTONA.setVisibility(View.INVISIBLE);
                                                     BUTTONB.setVisibility(View.INVISIBLE);
                                                     BUTTONC.setVisibility(View.INVISIBLE);
                                                     BUTTONHINT.setVisibility(View.INVISIBLE);
                                                     BUTTONSKIP.setVisibility(View.INVISIBLE);
-                                                    //Show Start
+                                                    //SHOW START BUTTON:
                                                     BUTTONSTART.setVisibility(View.VISIBLE);
                                                 }
                                             });
@@ -859,121 +876,131 @@ public class MainActivity extends Activity {
 
                                 });
 
-                        // SHOW RESULT
-                        if (aPlayer.get1() == false && aPlayer.get2() == false && aPlayer.get3() == false && aPlayer.get4() == false && aPlayer.get5() == false)
+
+                        // RESULTS SHOW:
+                        if (playerX.get1() == false && playerX.get2() == false && playerX.get3() == false && playerX.get4() == false && playerX.get5() == false)
+                        // PlayerX has finished all the question
                         {
-                            score_txt.setText(aPlayer.getName() + "'s score is: " + aPlayer.getScore(time) + "/5");
-                            BUTTONSTART.setText("You answered all the questions.");
-                            score_txt.setVisibility(View.VISIBLE);
+                            score_text.setText(playerX.nameGet() + " has scored:  " + playerX.scoreGet(time) + " out of 5");
+                            BUTTONSTART.setText("Quiz finished!");
+                            score_text.setVisibility(View.VISIBLE);
 
-                            //SHOW REDO IF SINGLE PLAYER
-                            if (!c && !sc && time < 2)
+                            //REPLAY BUTTON SHOW:
+                            if (!c && !both && time < 2)
                             {
-                                Redo_button.setVisibility(View.VISIBLE);
+                                BUTTONReplay.setVisibility(View.VISIBLE);
                             }
-                            //SHOW SINGLE SCORE REVIEW BUTTON IF PLAYED AT LEAST 2 TIMES
-                            if (time > 0 && !c && !sc)
+                            //SCORE REVIEW BUTTON SHOW:
+                            if (time > 1 && !c && !both)
                             {
-                                SingleScore_button.setVisibility(View.VISIBLE);
+                                BUTTONScoreSingle.setVisibility(View.VISIBLE);
                             }
 
-                            //SHOW NEXT PLAYER IF MULTI
+                            //NEXT PLAYER BUTTON SHOW - TWO PLAYERS:
                             if (c) {
                                 BUTTONNEXT.setVisibility(View.VISIBLE);
-                                notice_txt.setText(aPlayer.getName() + " has answered all the questions, next player's turn.");
-                                notice_txt.setVisibility(View.VISIBLE);
+                                namewrong_text.setText(playerX.nameGet() + " has finished! Next player:");
+                                namewrong_text.setVisibility(View.VISIBLE);
                             }
 
-                            //SHOW REVIEW SCORE BUTTON IF BOTH PLAYERS FINISHED
-                            if (sc) {
+                            //SCORE REVIEW BUTTON - END:
+                            if (both) {
                                 BUTTONSCORE.setVisibility(View.VISIBLE);
-                                notice_txt.setText("Both players finished. Press Score Review for rankings.");
-                                notice_txt.setVisibility(View.VISIBLE);
+                                namewrong_text.setText("Both players finished. Press Score Review for rankings.");
+                                namewrong_text.setVisibility(View.VISIBLE);
                             }
                         }
                     }
                 });
 
-        //Redo Button click
-        Redo_button.setOnClickListener(
+        //REPLAY:
+        BUTTONReplay.setOnClickListener(
                 new Button.OnClickListener()
                 {
                     @Override
                     public void onClick(View View)
                     {
-                        aPlayer.resetquestion();
-                        aPlayer.SetScore(time+1);
-                        Input(aPlayer, false, false, time+1);
+                        playerX.restart();
+                        playerX.scoreSet(time+1);
+                        Input(playerX, false, false, time+1);
                         BUTTONSTART.setText("START");
                         BUTTONSTART.setVisibility(View.VISIBLE);
-                        Redo_button.setVisibility(View.INVISIBLE);
-                        SingleScore_button.setVisibility(View.INVISIBLE);
+                        BUTTONReplay.setVisibility(View.INVISIBLE);
+                        BUTTONScoreSingle.setVisibility(View.INVISIBLE);
                     }
                 });
 
-        //SINGLE SCORE BUTTON click
-        SingleScore_button.setOnClickListener(
+        //SCORE REVIEW - SINGLE PLAYER:
+        BUTTONScoreSingle.setOnClickListener(
                 new Button.OnClickListener()
                 {
                     @Override
                     public void onClick(View View)
                     {
-                        // Make unnecessary things INVISIBLE
-                        SingleScore_button.setVisibility(View.INVISIBLE);
-                        notice_txt.setVisibility(View.INVISIBLE);
+                        // HIDE:
+                        BUTTONScoreSingle.setVisibility(View.INVISIBLE);
+                        namewrong_text.setVisibility(View.INVISIBLE);
                         BUTTONSTART.setVisibility(View.INVISIBLE);
-                        score_txt.setVisibility(View.INVISIBLE);
-                        Redo_button.setVisibility(View.INVISIBLE);
+                        score_text.setVisibility(View.INVISIBLE);
+                        BUTTONReplay.setVisibility(View.INVISIBLE);
 
-                        String resultst = "Your scores in each time: ";
-
+                        String scorestatus= "SCORES LIST: ";
+                        // 3 times default: can add more if needed
                         for (int j = 0; j<=time; j++)
                         {
                             switch (j)
                             {
                                 case 0:
-                                    resultst = resultst + "1st time: ";
+                                    scorestatus= scorestatus+ "First time:  ";
                                     break;
                                 case 1:
-                                    resultst = resultst + "2nd time: ";
+                                    scorestatus= scorestatus+ "Second time: ";
                                     break;
                                 case 2:
-                                    resultst = resultst + "3rd time: ";
+                                    scorestatus= scorestatus+ "Third time: ";
                                     break;
                                 default: break;
                             }
-                            resultst = resultst + (aPlayer.getScore(j)) + "  ";
+                            scorestatus= scorestatus+ (playerX.scoreGet(j)) + "  ";
                         }
-                        high_txt.setText(resultst);
+                        high_text.setText(scorestatus);
 
-                        String rankst = "Ranks among the times you tried are: ";
+                        String playerRank = "Ranks of " + playerX.nameGet() +" in descending order: ";
 
                         if (time == 2) {
-                            //IF 1st time HIGHEST
-                            if (aPlayer.getScore(0) >= aPlayer.getScore(1) && aPlayer.getScore(0) >= aPlayer.getScore(2)) {
-                                rankst = rankst + " 1st time,";
-                                if (aPlayer.getScore(1) >= aPlayer.getScore(2)) {
-                                    rankst = rankst + " 2nd time, 3rd time.";
+                            //First time
+                            if (playerX.scoreGet(1) <= playerX.scoreGet(0) && playerX.scoreGet(2) <= playerX.scoreGet(0)) {
+                                playerRank = playerRank + " 1st time - "  + playerX.scoreGet(0);
+                                //1,2,3
+                                if (playerX.scoreGet(1) >= playerX.scoreGet(2)) {
+                                    playerRank = playerRank + " ,2nd time - " +  + playerX.scoreGet(1) + " ,3rd time - " +  + playerX.scoreGet(2);
                                 } else {
-                                    rankst = rankst + " 3rd time, 2nd time.";
+                                    //1,3,2
+                                    playerRank = playerRank + " ,3rd time - " +  + playerX.scoreGet(2) + " ,2nd time - " +  + playerX.scoreGet(1);
                                 }
                             } else {
-                                //IF 2nd time highest
-                                if (aPlayer.getScore(1) >= aPlayer.getScore(0) && aPlayer.getScore(1) >= aPlayer.getScore(2)) {
-                                    rankst = rankst + " 2nd time,";
-                                    if (aPlayer.getScore(0) >= aPlayer.getScore(2)) {
-                                        rankst = rankst + " 1st time, 3rd time.";
+
+
+                                //Second time
+                                if (playerX.scoreGet(0) <= playerX.scoreGet(1) && playerX.scoreGet(2) <= playerX.scoreGet(1)) {
+                                    playerRank = playerRank + " 2nd time - " + playerX.scoreGet(1);
+                                    //2,1,3
+                                    if (playerX.scoreGet(0) >= playerX.scoreGet(2)) {
+                                        playerRank = playerRank + " ,1st time - " +  + playerX.scoreGet(0) + " ,3rd time - " +  + playerX.scoreGet(2);
+                                        //2,3,1
                                     } else {
-                                        rankst = rankst + " 3rd time, 1st time.";
+                                        playerRank = playerRank + " ,2nd time - " +  + playerX.scoreGet(1) + " ,1st time - " +  + playerX.scoreGet(0);
                                     }
                                 } else {
-                                    // IF 3rd time highest
-                                    if (aPlayer.getScore(2) >= aPlayer.getScore(0) && aPlayer.getScore(2) >= aPlayer.getScore(1)) {
-                                        rankst = rankst + " 3rd time,";
-                                        if (aPlayer.getScore(1) >= aPlayer.getScore(0)) {
-                                            rankst = rankst + " 2nd time, 1st time.";
+                                    //Third time
+                                    if (playerX.scoreGet(2) >= playerX.scoreGet(0) && playerX.scoreGet(2) >= playerX.scoreGet(1)) {
+                                        playerRank = playerRank + " 3rd time - " + playerX.scoreGet(2);
+                                        //3,2,1
+                                        if (playerX.scoreGet(1) >= playerX.scoreGet(0)) {
+                                            playerRank = playerRank + " ,2nd time - " +  + playerX.scoreGet(1) + " ,1st time - " +  + playerX.scoreGet(0);
+                                            //3,1,2
                                         } else {
-                                            rankst = rankst + " 1st time, 2nd time.";
+                                            playerRank = playerRank + " ,1st time - " +  + playerX.scoreGet(0) + " ,2nd time - " +  + playerX.scoreGet(1);
                                         }
                                     }
                                 }
@@ -981,34 +1008,35 @@ public class MainActivity extends Activity {
                         }
                         if (time == 1)
                         {
-                            if (aPlayer.getScore(0) >= aPlayer.getScore(1))
+                            if (playerX.scoreGet(0) >= playerX.scoreGet(1))
                             {
-                                rankst = rankst + " 1st time, 2nd time.";
+                                playerRank = playerRank + " 1st time - " +  + playerX.scoreGet(0) + " 2nd time - " +  + playerX.scoreGet(1);
                             }
                             else {
-                                rankst = rankst + " 2nd time, 1st time.";
+                                playerRank = playerRank + " 2nd time - " +  + playerX.scoreGet(1) + " 1st time - " +  + playerX.scoreGet(0);
                             }
                         }
-                        low_txt.setText(rankst);
-                        // Make necessary things VISIBLE
-                        low_txt.setVisibility(View.VISIBLE);
-                        high_txt.setVisibility(View.VISIBLE);
+                        low_text.setText(playerRank);
+                        // SHOW
+                        low_text.setVisibility(View.VISIBLE);
+                        high_text.setVisibility(View.VISIBLE);
 
                         hello.setText("SCORE REVIEW");
 
                     }
                 });
 
-        //Next Player Button click
+        //Next Player:
+
         BUTTONNEXT.setOnClickListener(
                 new Button.OnClickListener()
                 {
                     @Override
                     public void onClick(View View)
                     {
-                        // Make unnecessary things INVISIBLE
-                        notice_txt.setVisibility(View.INVISIBLE);
-                        score_txt.setVisibility(View.INVISIBLE);
+                        // HIDE:
+                        namewrong_text.setVisibility(View.INVISIBLE);
+                        score_text.setVisibility(View.INVISIBLE);
                         BUTTONNEXT.setVisibility(View.INVISIBLE);
                         BUTTONHINT.setVisibility(View.INVISIBLE);
                         BUTTONSKIP.setVisibility(View.INVISIBLE);
@@ -1017,58 +1045,70 @@ public class MainActivity extends Activity {
                         BUTTONQ3.setVisibility(View.INVISIBLE);
                         BUTTONQ4.setVisibility(View.INVISIBLE);
                         BUTTONQ5.setVisibility(View.INVISIBLE);
-                        BUTTONSTART.setText("GO TO QUESTION LIST");
-                        hello.setText("Next Player.");
+                        BUTTONSTART.setText("BACK TO QUESTION LIST");
+                        hello.setText("Next Player");
                         BUTTONSTART.setVisibility(View.INVISIBLE);
 
-                        // Make necessary things VISIBLE
+                        // SHOW
                         Reg_button.setVisibility(View.VISIBLE);
                         name_tit.setVisibility(View.VISIBLE);
-                        txtname.setVisibility(View.VISIBLE);
-                        question_txt.setText("");
+                        textname.setVisibility(View.VISIBLE);
+                        question_text.setText("");
 
-                        PlayerNo(1, false, true, 0);
+                        playerCode(1, false, true, 0);
                     }
                 });
 
-        //Score Button For Multiplayers Rank click
+        //SCORE REVIEW - TWO PLAYERS:
         BUTTONSCORE.setOnClickListener(
                 new Button.OnClickListener()
                 {
                     @Override
                     public void onClick(View View)
                     {
-                        // Make unnecessary things INVISIBLE
+                        // HIDE:
                         BUTTONSCORE.setVisibility(View.INVISIBLE);
-                        notice_txt.setVisibility(View.INVISIBLE);
+                        namewrong_text.setVisibility(View.INVISIBLE);
                         BUTTONNEXT.setVisibility(View.INVISIBLE);
                         BUTTONSTART.setVisibility(View.INVISIBLE);
-                        score_txt.setVisibility(View.INVISIBLE);
+                        score_text.setVisibility(View.INVISIBLE);
 
-                        // Make necessary things VISIBLE
-                        low_txt.setVisibility(View.VISIBLE);
-                        high_txt.setVisibility(View.VISIBLE);
+                        // SHOW
+                        low_text.setVisibility(View.VISIBLE);
+                        high_text.setVisibility(View.VISIBLE);
 
                         hello.setText("SCORE REVIEW");
-                        if (playerList[0].getScore(time) > playerList[1].getScore(time))
+                        if (playerList[0].scoreGet(time) > playerList[1].scoreGet(time))
                         {
-                            high_txt.setText(playerList[0].getName() + " has higher score with " + playerList[0].getScore(time) + "/5");
-                            low_txt.setText(playerList[1].getName() + " has lower score with " + playerList[1].getScore(time) + "/5");
+                            high_text.setText(playerList[0].nameGet() + " WINS with " + playerList[0].scoreGet(time) + " /5");
+                            low_text.setText(playerList[1].nameGet() + " LOSES with " + playerList[1].scoreGet(time) + " /5");
                         }
-                        else if (playerList[0].getScore(time) < playerList[1].getScore(time))
+                        else if (playerList[0].scoreGet(time) < playerList[1].scoreGet(time))
                         {
-                            high_txt.setText(playerList[1].getName() + " has higher score with " + playerList[1].getScore(time) + "/5");
-                            low_txt.setText(playerList[0].getName() + " has lower score with " + playerList[0].getScore(time) + "/5");
+                            high_text.setText(playerList[1].nameGet() + " WINS with " + playerList[1].scoreGet(time) + " /5");
+                            low_text.setText(playerList[0].nameGet() + " LOSES with " + playerList[0].scoreGet(time) + " /5");
                         }
-                        else if (playerList[0].getScore(time) == playerList[1].getScore(time))
+                        else if (playerList[0].scoreGet(time) == playerList[1].scoreGet(time))
                         {
-                            high_txt.setText(playerList[1].getName() + " and " + playerList[0].getName() + " have same score with " + playerList[1].getScore(time) + "/5");
-                            low_txt.setText("");
+                            high_text.setText(playerList[1].nameGet() + " and " + playerList[0].nameGet() + " DRAWN with " + playerList[1].scoreGet(time) + " /5");
+                            low_text.setText("");
                         }
+
+
                     }
                 });
     }
+
+    private void TestUpload () {
+
+        int i = 1 + 1;
+    }
 }
+
+
+
+
+
 
 
 
